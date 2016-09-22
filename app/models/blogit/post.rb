@@ -51,6 +51,8 @@ module Blogit
       
     scope :active, lambda { where(state:  Blogit.configuration.active_states ) }
 
+    before_save :set_published_at, if: ->{ published_at.blank? }
+
 
     # The posts to be displayed for RSS and XML feeds/sitemaps
     #
@@ -103,6 +105,14 @@ module Blogit
       check_comments_config
       super(value)
     end
+
+    def publish
+      self.state = Blogit.configuration.active_states.first
+    end
+
+    def publish!
+      self.update_attributes! state: Blogit.configuration.active_states.first
+    end
     
 
     # The blogger who wrote this {Post Post's} display name
@@ -136,6 +146,12 @@ module Blogit
       unless Blogit.configuration.include_comments == :active_record
         raise RuntimeError, 
           "Posts only allow active record comments (check blogit configuration)"
+      end
+    end
+
+    def set_published_at
+      if Blogit.configuration.active_states.include? state.try(:to_sym)
+        self.published_at = Time.current
       end
     end
     

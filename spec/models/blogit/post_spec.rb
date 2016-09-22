@@ -226,5 +226,27 @@ describe Blogit::Post do
       
     end
   end
+
+  describe "Publishing" do
+    
+    let(:post) { create(:post) }
+
+    it 'sets published state to state attribute' do
+      post.publish
+      expect(post.state).to eq(Blogit.configuration.active_states.first.to_s)
+    end
+
+    it 'stores published state' do
+      post.publish!
+      post.reload
+      expect(post.state).to eq(Blogit.configuration.active_states.first.to_s)
+    end
+
+    it 'sets published_at on publication' do
+      post.update_attribute(:state, Blogit.configuration.active_states.first)
+      expect(post.reload.published_at).to be
+    end
+
+  end
   
 end
