@@ -15,10 +15,10 @@ describe SubPostsController do
   describe "GET 'index'" do
     
     before do
-      Post.expects(:for_index).with(nil).returns(posts)
+      expect(Post).to receive(:for_index).with(nil).and_return(posts)
     end
     
-    let(:posts) { [] }
+    let(:posts) { Blogit::Post }
 
     def do_get(page=nil)
       get :index, page: page 
@@ -28,7 +28,7 @@ describe SubPostsController do
   
       it 'yields the block with posts' do
         Timecop.freeze do
-          posts.expects(:update_all).with(updated_at: Time.now).returns([])
+          expect(posts).to receive(:update_all).with(updated_at: Time.now).and_return([])
           do_get
         end
       end
@@ -40,11 +40,11 @@ describe SubPostsController do
   describe "GET 'tagged'" do
     
     before do
-      Post.expects(:for_index).with(nil).returns(posts)
-      posts.expects(:tagged_with).returns(posts)
+      expect(Post).to receive(:for_index).with(nil).and_return(posts)
+      expect(posts).to receive(:tagged_with).and_return(posts)
     end
     
-    let(:posts) { [] }
+    let(:posts) { Blogit::Post }
 
     def do_get(page=nil)
       get :tagged, page: page, tag: "one"
@@ -54,7 +54,7 @@ describe SubPostsController do
   
       it 'yields the block with posts' do
         Timecop.freeze do
-          posts.expects(:update_all).with(updated_at: Time.now).returns([])
+          expect(posts).to receive(:update_all).with(updated_at: Time.now).and_return([])
           do_get
         end
       end
@@ -66,10 +66,10 @@ describe SubPostsController do
   describe "GET 'show'" do
     
     before do
-      Post.expects(:active_with_id).with("1").returns(post)
+      expect(Post).to receive(:active_with_id).with("1").and_return(post)
     end
     
-    let(:post) { [] }
+    let(:post) { create(:post) }
 
     def do_get(id="1")
       get :show, id: "1"
@@ -78,7 +78,7 @@ describe SubPostsController do
     context "when super is called with a block" do
   
       it 'yields the block with posts' do
-        post.expects(:touch).with(:updated_at)
+        expect(post).to receive(:touch).with(:updated_at)
         do_get
       end
       

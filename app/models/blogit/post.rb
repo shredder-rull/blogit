@@ -3,8 +3,10 @@ module Blogit
     
     require "kaminari"
     require "acts-as-taggable-on"
+    require "acts_as_commentable_with_threading"
 
     acts_as_taggable
+    acts_as_commentable
 
     self.paginates_per(Blogit.configuration.posts_per_page)
 
@@ -12,13 +14,13 @@ module Blogit
     # = Validations =
     # ===============
 
-    validates :title, presence: true, length: { minimum: 10, maximum: 66 }
+    validates :title, presence: true, length: { minimum: 10 }
 
     validates :body,  presence: true, length: { minimum: 10 }
     
     validates :description, presence: Blogit.configuration.show_post_description
 
-    validates :blogger_id, presence: true
+    validates :blogger, presence: true
 
     validates :state, presence: true
 
@@ -36,7 +38,9 @@ module Blogit
     # The {Comment Comments} written on this Post
     #
     # Returns an ActiveRecord::Relation instance
-    has_many :comments, :class_name => "Blogit::Comment"
+    
+    has_many :comments, ->{ where(parent_id: nil) }, class_name: 'Comment',
+      as: :commentable, inverse_of: :commentable
 
     # ==========
     # = Scopes =

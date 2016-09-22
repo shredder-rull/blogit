@@ -18,20 +18,17 @@ FactoryGirl.define do
     end
   end
 
-  factory :comment, class: Blogit::Comment do
-    name "Gavin"
-    email "bodacious@katanacode.com"
-    website "http://katanacode.com"
-    body "I once saw a child the size of a tangerine!"
-    post
-  end
-  
-  # =======================
-  # = Dummy App Factories =
-  # =======================
   factory :user do
     username "bodacious"
     password "password"
+  end
+
+  factory :comment do
+    title "Comment Title"
+    subject "Comment subject"
+    body "I once saw a child the size of a tangerine!"
+    post
+    user
   end
   
 end

@@ -1,7 +1,7 @@
 module Blogit
 
   # Inherits from the application's controller instead of ActionController::Base
-  class ApplicationController < ::ApplicationController
+  class ApplicationController < Blogit::configuration.base_controller.constantize
 
     helper Blogit::ApplicationHelper
     helper Blogit::LayoutHelper
@@ -23,6 +23,10 @@ module Blogit
     # Returns a Blogit::Configuration
     def blogit_conf
       self.class.blogit_conf
+    end
+
+    def app_user
+      self.send(Blogit.configuration.controller_user_method)
     end
 
   end

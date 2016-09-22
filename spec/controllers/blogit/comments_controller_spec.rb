@@ -4,6 +4,8 @@ describe Blogit::CommentsController do
 
   before do
     @routes = Blogit::Engine.routes
+    @user = create(:user)
+    allow_any_instance_of( Blogit::CommentsController ).to receive(:current_user){ @user }
   end
   
   let(:blog_post) { Blogit::Post.active.first || create(:post, :active) }

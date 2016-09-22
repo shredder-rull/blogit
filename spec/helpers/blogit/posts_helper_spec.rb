@@ -19,9 +19,9 @@ describe Blogit::PostsHelper do
         config.include_comments = :active_record
       end
 
-      comment = Blogit::Comment.new
-      Blogit::Comment.expects(:new).returns(comment)
-      helper.expects(:render).with(partial: "blogit/comments/active_record_comments", locals: {post: post, comment: comment})
+      comment = Comment.new
+      expect(Comment).to receive(:new).and_return(comment)
+      expect(helper).to receive(:render).with(partial: "blogit/comments/active_record_comments", locals: {post: post, comment: comment})
       helper.comments_for_post(post)
     end
   end
@@ -42,7 +42,7 @@ describe Blogit::PostsHelper do
         config.include_share_bar = true
       end
 
-      helper.expects(:render).with(partial: "blogit/posts/share_bar", locals: {post: post}).returns(share_bar_html='<div id="share-bar">...</div>')
+      expect(helper).to receive(:render).with(partial: "blogit/posts/share_bar", locals: {post: post}).and_return(share_bar_html='<div id="share-bar">...</div>')
       expect(helper.share_bar_for_post(post)).to eq(share_bar_html)
     end
 

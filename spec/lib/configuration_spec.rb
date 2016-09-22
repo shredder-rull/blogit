@@ -13,7 +13,7 @@ describe Blogit::Configuration do
   end
 
   it "should print a warning to the console if disqus_shortname is set but include_comments is not disqus" do
-    blog_configuration.expects(:warn)
+    expect(blog_configuration).to receive(:warn)
     blog_configuration.include_comments = :active_record
     blog_configuration.disqus_shortname = "bodacious"
   end

@@ -133,6 +133,19 @@ module Blogit
     config_accessor(:show_post_description) { true }
 
 
+    ##
+    # Controller method what returns auth user
+    #
+    # Default to current_user
+    config_accessor(:controller_user_method) { :current_user }
+
+    ##
+    # Base controller for posts and comments
+    #
+    # Default to ::Application
+    config_accessor(:base_controller) { '::ApplicationController' }
+
+
     def default_parser_class
       "Blogit::Parsers::#{default_parser.to_s.classify}Parser".constantize
     end

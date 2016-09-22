@@ -16,8 +16,8 @@
   <%= share_bar_for_post @post %>
 
   <%# Render the no. of comments %>
-  <%= render "blogit/posts/comments_count",
-    post: post if defined?(show_comments_count) and show_comments_count %>
+  <%= render "blogit/comments/comments_count",
+    post: post if local_assigns[:show_comments_count] %>
 
   <%= render "blogit/posts/tags", post: @post %>
   <%= render "blogit/posts/related", post: @post %>

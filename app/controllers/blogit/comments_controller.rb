@@ -38,7 +38,7 @@ module Blogit
 
     # Set this controller's comment attribute as a new comment with params
     def set_comment_as_new
-      @comment = post.comments.new(comment_params)
+      @comment = post.comments.new(comment_params.merge(user_id: app_user.id))
     end
 
     # The create action render call when format is JS
@@ -60,7 +60,7 @@ module Blogit
     # 
     # Returns a Hash
     def comment_params
-      params.require(:comment).permit(:name, :nickname, :email, :body, :website)
+      params.require(:comment).permit(:title, :subject, :body)
     end
     
   end

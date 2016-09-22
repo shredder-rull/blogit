@@ -18,7 +18,7 @@ describe Blogit::PostsController do
     end
 
     it 'sets posts to Blogit::Post.for_index' do
-      Blogit::Post.expects(:for_index).returns(posts)
+      expect(Blogit::Post).to receive(:for_index).and_return(posts)
       do_get
       expect(assigns(:posts)).to eql(posts)
     end
@@ -26,7 +26,7 @@ describe Blogit::PostsController do
     context "when a page param is present" do
 
       it 'passes the page param on to Blogit::Post.for_index' do
-        Blogit::Post.expects(:for_index).with('2').returns(posts)
+        expect(Blogit::Post).to receive(:for_index).with('2').and_return(posts)
         do_get('2')
         expect(assigns(:posts)).to eql(posts)
       end
@@ -61,8 +61,8 @@ describe Blogit::PostsController do
     end
 
     it "loads all posts in reverse date order" do
-      Blogit::Post.stubs(:active).returns(posts)
-      Blogit::Post.expects(:for_feed).returns(posts)
+      allow(Blogit::Post).to receive(:active).and_return(posts)
+      expect(Blogit::Post).to receive(:for_feed).and_return(posts)
       do_get
       expect(assigns(:posts)).to eql(posts)
     end
@@ -72,7 +72,7 @@ describe Blogit::PostsController do
   describe "GET 'show'" do
 
     before do
-      Blogit::Post.expects(:active_with_id).with("1").returns(blog_post)
+      expect(Blogit::Post).to receive(:active_with_id).with("1").and_return(blog_post)
     end
 
     def do_get

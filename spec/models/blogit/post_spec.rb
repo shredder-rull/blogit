@@ -10,7 +10,7 @@ describe Blogit::Post do
 
       it "is nil" do
         expect(blog_post).not_to be_valid
-        expect(blog_post.errors[:blogger_id].size).to eq(1)
+        expect(blog_post.errors[:blogger].size).to eq(1)
       end
 
     end
@@ -29,9 +29,9 @@ describe Blogit::Post do
         @blog_post.title = "a" * 9
       end
 
-      it "is longer than 66 characters" do
-        @blog_post.title = "a" * 67
-      end
+      # it "is longer than 66 characters" do
+      #   @blog_post.title = "a" * 67
+      # end
 
     end
 

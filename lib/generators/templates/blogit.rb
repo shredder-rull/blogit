@@ -62,4 +62,10 @@ Blogit.configure do |config|
   # List of states that will hide the posts from the public.
   config.hidden_states = [:draft, :archive]
 
+  # Getter method for user
+  config.controller_user_method = :current_user
+
+  # Base controller
+  config.base_controller = '::ApplicationController'
+
 end

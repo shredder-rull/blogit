@@ -8,7 +8,7 @@ module Blogit
     def comments_for_post(post)
       comment_type = Blogit.configuration.include_comments
       render(partial: "blogit/comments/#{comment_type}_comments", 
-        locals: { post: post, comment: Blogit::Comment.new })
+        locals: { post: post, comment: Comment.new })
     end
 
     # Renders the comments for a JS share bar based on the

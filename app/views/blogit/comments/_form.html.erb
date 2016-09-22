@@ -5,31 +5,18 @@
     <%= t :leave_a_comment, scope: 'blogit.comments' %>
   </h3>
 
-  <%= field class: "hidden" do %>
-    <%= f.label :nickname, "Nickname (Hide me using CSS)", 
+  <%= field do %>
+    <%= f.label :title, t(:title, scope: 'blogit.comments'),
       class: "blogit_form__label" %>
-    <%= f.text_field :nickname, class: "blogit_form__field" %>
+    <%= f.text_field :title, class: "blogit_form__field", required: true  %>
+    <%= errors_on(comment, :title) %>
   <% end %>
 
   <%= field do %>
-    <%= f.label :name, t(:name, scope: 'blogit.comments'),
-      class: "blogit_form__label" %>
-    <%= f.text_field :name, class: "blogit_form__field", required: true  %>
-    <%= errors_on(comment, :name) %>
-  <% end %>
-
-  <%= field do %>
-    <%= f.label :email, t(:email_never_displayed, scope: 'blogit.comments'), 
+    <%= f.label :subject, t(:subject, scope: 'blogit.comments'), 
        class: "blogit_form__label" %>
-    <%= f.email_field :email, class: "blogit_form__field", required: true %>
-    <%= errors_on(comment, :email) %>
-  <% end %>
-
-  <%= field do %>
-    <%= f.label :website, t(:your_website, scope: 'blogit.comments'),
-       class: "blogit_form__label" %>
-    <%= f.url_field :website, class: "blogit_form__field" %>
-    <%= errors_on(comment, :website) %>
+    <%= f.text_field :subject, class: "blogit_form__field", required: true %>
+    <%= errors_on(comment, :subject) %>
   <% end %>
 
   <%= field do %>
