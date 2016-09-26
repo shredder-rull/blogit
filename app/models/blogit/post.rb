@@ -52,6 +52,7 @@ module Blogit
     scope :active, lambda { where(state:  Blogit.configuration.active_states ) }
 
     before_save :set_published_at, if: ->{ published_at.blank? }
+    before_save :set_slug, if: ->{ slug.blank? }
 
 
     # The posts to be displayed for RSS and XML feeds/sitemaps
@@ -68,7 +69,7 @@ module Blogit
     # Returns a Blogit::Post
     # Raises ActiveRecord::NoMethodError if no Blogit::Post could be found
     def self.active_with_id(id)
-      active.find(id)
+      active.find_by('slug = ? or id = ?', id, id.to_i)
     end
     
     # ====================
@@ -81,7 +82,7 @@ module Blogit
     end
     
     def to_param
-      "#{id}-#{title.parameterize}"
+      slug.present? ? slug : id
     end
     
     # The content of the Post to be shown in the RSS feed.
@@ -153,6 +154,10 @@ module Blogit
       if Blogit.configuration.active_states.include? state.try(:to_sym)
         self.published_at = Time.current
       end
+    end
+
+    def set_slug
+      self.slug ||= title.parameterize
     end
     
   end
