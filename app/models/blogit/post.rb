@@ -47,7 +47,7 @@ module Blogit
     # ==========
 
     scope :for_index, lambda { |page_no = 1| 
-      active.order("created_at DESC").page(page_no) }
+      active.order("published_at DESC").page(page_no) }
       
     scope :active, lambda { where(state:  Blogit.configuration.active_states ) }
 
@@ -59,7 +59,7 @@ module Blogit
     #
     # Returns an ActiveRecord::Relation
     def self.for_feed
-      active.order('created_at DESC')
+      active.order('published_at DESC')
     end
     
     # Finds an active post with given id
@@ -76,11 +76,14 @@ module Blogit
     # = Instance Methods =
     # ====================
 
-    # TODO: Get published at working properly!
-    def published_at
-      created_at
+    def next_post
+      self.class.for_feed.where('published_at > ?', published_at).last
     end
-    
+
+    def prev_post
+      self.class.for_feed.where('published_at < ?', published_at).first
+    end
+
     def to_param
       slug.present? ? slug : id
     end

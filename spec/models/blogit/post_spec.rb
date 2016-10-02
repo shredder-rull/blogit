@@ -124,7 +124,7 @@ describe Blogit::Post do
       end
 
       it "should order posts by created_at DESC" do
-        expect(Blogit::Post.for_index.first).to eq(Blogit::Post.order("created_at DESC").first)
+        expect(Blogit::Post.for_index.first).to eq(Blogit::Post.order("published_at DESC").first)
       end
 
       it "should paginate posts in blocks of 5" do
@@ -133,7 +133,7 @@ describe Blogit::Post do
 
       it "should accept page no as an argument" do
         expect(Blogit::Post.for_index(2)).to eq(Blogit::Post.active.
-          order("created_at DESC").offset(5).limit(5))
+          order("published_at DESC").offset(5).limit(5))
       end
 
       it "should change the no of posts per page if paginates_per is set" do
@@ -245,6 +245,27 @@ describe Blogit::Post do
     it 'sets published_at on publication' do
       post.update_attribute(:state, Blogit.configuration.active_states.first)
       expect(post.reload.published_at).to be
+    end
+
+  end
+
+  describe "Navigation" do
+
+    before :all do
+      Blogit::Post.destroy_all
+      @posts = 5.times.map{|i| create(:post, :active, published_at: i.months.ago)}
+    end
+
+    it 'returns next post' do
+      expect(@posts[0].next_post).to be_nil
+      expect(@posts[1].next_post).to eq(@posts[0])
+      expect(@posts[2].next_post).to eq(@posts[1])
+    end
+
+    it 'returns prev post' do
+      expect(@posts[0].prev_post).to eq(@posts[1])
+      expect(@posts[1].prev_post).to eq(@posts[2])
+      expect(@posts[4].prev_post).to be_nil
     end
 
   end
