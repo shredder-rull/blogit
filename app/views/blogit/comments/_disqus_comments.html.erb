@@ -3,6 +3,11 @@
    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
    var disqus_shortname = '<%= Blogit.configuration.disqus_shortname %>'; // required: replace example with your forum shortname
 
+   var disqus_config = function () {
+     this.page.url = '<%= blogit.post_url(post) %>';
+     this.page.identifier = '<%= post.slug %>';
+   };
+
    /* * * DON'T EDIT BELOW THIS LINE * * */
    (function() {
      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
