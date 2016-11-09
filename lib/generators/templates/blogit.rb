@@ -68,4 +68,7 @@ Blogit.configure do |config|
   # Base controller
   config.base_controller = '::ApplicationController'
 
+  # Posts path
+  config.posts_path = 'posts'
+
 end

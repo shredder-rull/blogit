@@ -25,4 +25,4 @@ spec/dummy/db/schema.rb
 spec/dummy/*.sqlite3
 
 .ruby-version
-
+.idea

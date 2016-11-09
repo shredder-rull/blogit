@@ -142,9 +142,14 @@ module Blogit
     ##
     # Base controller for posts and comments
     #
-    # Default to ::Application
+    # Default to ::ApplicationController
     config_accessor(:base_controller) { '::ApplicationController' }
 
+    ##
+    # Route path for posts
+    #
+    # Default to posts
+    config_accessor(:posts_path) { 'posts' }
 
     def default_parser_class
       "Blogit::Parsers::#{default_parser.to_s.classify}Parser".constantize
